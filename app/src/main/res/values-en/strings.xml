@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Supermarket Lists</string>
+    <string name="title_activity_ref">RefActivity</string>
+    <string name="error_list_insertion">There was an error creating a new list…</string>
+    <string name="error_product_insertion">There was an error inserting a new product…</string>
+    <string name="product_inserted">Product inserted!</string>
+    <string name="product_deleted">Product deleted!</string>
+    <string name="product_updated">Product updated!</string>
+    <string name="error_empty_fields">There are empty fields…</string>
+    <string name="supermarket_lists">Supermarket Lists</string>
+    <string name="nombre_del_producto">Product name:</string>
+    <string name="cantidad_comprada">Count:</string>
+    <string name="precio">Price: $</string>
+    <string name="total_comprando">Total: $</string>
+    <string name="agregar_al_carrito">Add to cart</string>
+    <string name="quitar_del_carrito">Remove from cart</string>
+    <string name="modificar">Update</string>
+    <string name="borrar_listado">Delete List</string>
+    <string name="re_preguntar">Are you sure to delete the selected list?</string>
+    <string name="si">Yeah!</string>
+    <string name="no">Mmm no, thanks</string>
+    <string name="totalGastadoTitulo">Paid: $</string>
+</resources>

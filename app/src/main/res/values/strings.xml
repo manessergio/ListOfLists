@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Mis Listas de Compras</string>
+    <string name="title_activity_ref">RefActivity</string>
+    <string name="error_list_insertion">Hubo un error al crear una nueva lista</string>
+    <string name="error_product_insertion">Hubo un error al insertar un producto a la lista</string>
+    <string name="product_inserted">¡Producto insertado!</string>
+    <string name="product_deleted">¡Producto eliminado!</string>
+    <string name="product_updated">¡Producto actualizado!</string>
+    <string name="error_empty_fields">Hay campos sin rellenar…</string>
+    <string name="supermarket_lists">Listas de Compras</string>
+    <string name="nombre_del_producto">Nombre del producto:</string>
+    <string name="cantidad_comprada">Cantidad comprada:</string>
+    <string name="precio">Precio: $</string>
+    <string name="total_comprando">Total comprando: $</string>
+    <string name="agregar_al_carrito">Agregar al Carrito</string>
+    <string name="quitar_del_carrito">Quitar del Carrito</string>
+    <string name="modificar">Modificar</string>
+    <string name="borrar_listado">Borrar Listado</string>
+    <string name="re_preguntar">¿Estas seguro de eliminar la lista seleccionada?</string>
+    <string name="si">¡Si!</string>
+    <string name="no">No, mejor no</string>
+    <string name="totalGastadoTitulo">Pagado: $</string>
+</resources>
