@@ -31,11 +31,11 @@ public class Lista {
         this.subtotal = 0.0;
     }
 
-    public ArrayList<Producto> getList() {
+    public ArrayList<Producto> getListProducts() {
         return list;
     }
 
-    public void setList(ArrayList<Producto> list) {
+    public void setListProducts(ArrayList<Producto> list) {
         this.list = list;
     }
 
@@ -62,4 +62,28 @@ public class Lista {
     public void setSubtotal(Double subtotal) {
         this.subtotal = subtotal;
     }
+
+    public static int posInArray(ArrayList<Lista> listaLists, long id)
+    {
+        int pos = 0;
+        boolean found = false;
+        while ((pos < listaLists.size()) && (!found))
+        {
+            if (listaLists.get(pos).getId() == id)
+            {
+                found = true;
+            }
+            else
+            {
+                pos++;
+            }
+        }
+
+        if (!found)
+        {
+            pos = -1;
+        }
+        return pos;
+    }
+
 }

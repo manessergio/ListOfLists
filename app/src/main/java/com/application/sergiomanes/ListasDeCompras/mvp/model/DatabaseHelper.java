@@ -103,7 +103,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return producto;
     }
 
-    public ArrayList<Producto> getAllProductsFromListID(Lista list)
+    public void getAllProductsFromListID(Lista list)
     {
         SQLiteDatabase db = getReadableDatabase();
         ArrayList<Producto> arrayListProducts = new ArrayList<>();
@@ -126,8 +126,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         db.close();
-        return arrayListProducts ;
+        list.setListProducts(arrayListProducts);
     }
+
+
 
     public ArrayList<Lista> getAllLists()
     {
@@ -153,7 +155,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return arrayListLists ;
     }
 
-    public long addList(Lista lista)
+    public void addList(Lista lista)
     {
         ContentValues contentValues = new ContentValues();
         //Para dale el formato de fecha que quiero
@@ -163,8 +165,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = getWritableDatabase();
         long result = db.insert("Lists",null,contentValues);
+        lista.setId(result);
         db.close();
-        return result;
     }
 
     public Lista getList(long id)

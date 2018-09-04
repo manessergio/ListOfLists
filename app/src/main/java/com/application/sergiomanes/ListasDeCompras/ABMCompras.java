@@ -28,7 +28,6 @@ public class ABMCompras extends AppCompatActivity {
     Button addProductbtn,updateProductbtn,deleteProductbtn;
     Lista list;
     DatabaseHelper DB;
-    ArrayList<Producto> arrayListProducts = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,28 +51,27 @@ public class ABMCompras extends AppCompatActivity {
         if (bundle != null) //Caso mostrar Lista con o sin contenido
         {
             list = DB.getList(bundle.getLong("listID"));
-            arrayListProducts = DB.getAllProductsFromListID(list);
+            DB.getAllProductsFromListID(list);
         }
         else // Caso crear Lista nueva
         {
-            list = new Lista(arrayListProducts, new Date());
-            long result = DB.addList(list);
+            list = new Lista(new ArrayList<Producto>(), new Date());
+            DB.addList(list);
 
-            if (result!=-1){
-                list.setId(result);
-            }
-            else{
-                Toast.makeText(getApplicationContext(),getResources().getString(com.application.sergiomanes.ListasDeCompras.R.string.error_list_insertion),Toast.LENGTH_SHORT).show();
+            if (list.getId()==-1){
+                Toast.makeText(getApplicationContext(),getResources().
+                                                       getString(com.application.sergiomanes.ListasDeCompras.R.string.error_list_insertion)
+                                                      ,Toast.LENGTH_SHORT).show();
                 return;
             }
         }
 
         total.setText(String.format("%.2f", list.getSubtotal()));
 
-        final DetailAdapter adapter = new DetailAdapter(arrayListProducts, com.application.sergiomanes.ListasDeCompras.R.layout.itemrecyclerview, this, new DetailAdapter.OnItemClickListener() {
+        final DetailAdapter adapter = new DetailAdapter(list.getListProducts(), com.application.sergiomanes.ListasDeCompras.R.layout.itemrecyclerview, this, new DetailAdapter.OnItemClickListener() {
             @Override
             public void OnItemClick(int pos) {
-                Producto producto = DB.getProduct(arrayListProducts.get(pos));
+                Producto producto = DB.getProduct(list.getListProducts().get(pos));
                 idProduct.setText(String.valueOf(producto.getCode()));
                 nameProduct.setText(String.valueOf(producto.getName()));
                 countProduct.setText(String.valueOf(producto.getCount()));
@@ -109,11 +107,11 @@ public class ABMCompras extends AppCompatActivity {
                 {
                     long id = Long.valueOf(idProduct.getText().toString());
 
-                    int posInArray = Producto.posInArray(arrayListProducts,id);
-                    Producto producto = arrayListProducts.get(posInArray);
+                    int posInArray = Producto.posInArray(list.getListProducts(),id);
+                    Producto producto = list.getListProducts().get(posInArray);
 
                     DB.deleteProduct(id);
-                    arrayListProducts.remove(posInArray);
+                    list.getListProducts().remove(posInArray);
                     adapter.notifyItemRemoved(posInArray);
 
                     list.setSubtotal(Double.parseDouble(total.getText().toString().replace(",", "."))-(producto.getPrice()*producto.getCount()));
@@ -163,8 +161,8 @@ public class ABMCompras extends AppCompatActivity {
             if (code != -1) {
                 producto.setCode(code);
                 idProduct.setText(String.valueOf(code));
-                arrayListProducts.add(producto);
-                int posInArray = Producto.posInArray(arrayListProducts, code);
+                list.getListProducts().add(producto);
+                int posInArray = Producto.posInArray(list.getListProducts(), code);
                 adapter.notifyItemInserted(posInArray);
                 Toast.makeText(getApplicationContext(), getResources().getString(com.application.sergiomanes.ListasDeCompras.R.string.product_inserted), Toast.LENGTH_SHORT).show();
                 list.setSubtotal(list.getSubtotal()+(producto.getPrice()*producto.getCount()));
@@ -185,9 +183,9 @@ public class ABMCompras extends AppCompatActivity {
     {
         if ((!idProduct.getText().toString().equals("")) && (checkFields())) {
 
-            int posInArray = Producto.posInArray(arrayListProducts,Long.valueOf(idProduct.getText().toString()));
+            int posInArray = Producto.posInArray(list.getListProducts(),Long.valueOf(idProduct.getText().toString()));
 
-            Producto oldProduct = arrayListProducts.get(posInArray);
+            Producto oldProduct = list.getListProducts().get(posInArray);
 
             list.setSubtotal(list.getSubtotal()-(oldProduct.getPrice()*oldProduct.getCount()));
             double subTotalBefore = list.getSubtotal();
@@ -201,7 +199,7 @@ public class ABMCompras extends AppCompatActivity {
 
 
             DB.updateProduct(newProducto);
-            arrayListProducts.set(posInArray, newProducto);
+            list.getListProducts().set(posInArray, newProducto);
             adapter.notifyItemChanged(posInArray);
 
             Toast.makeText(getApplicationContext(), getResources().getString(com.application.sergiomanes.ListasDeCompras.R.string.product_updated), Toast.LENGTH_SHORT).show();

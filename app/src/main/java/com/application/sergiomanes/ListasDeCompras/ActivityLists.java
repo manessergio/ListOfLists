@@ -13,8 +13,12 @@ import android.view.View;
 
 import com.application.sergiomanes.ListasDeCompras.mvp.model.DatabaseHelper;
 import com.application.sergiomanes.ListasDeCompras.mvp.model.Lista;
+import com.application.sergiomanes.ListasDeCompras.mvp.model.Producto;
 
 import java.util.ArrayList;
+import java.util.Date;
+
+import static com.application.sergiomanes.ListasDeCompras.mvp.model.Lista.posInArray;
 
 public class ActivityLists extends AppCompatActivity {
 
@@ -44,7 +48,7 @@ public class ActivityLists extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setHasFixedSize(true);
+        recyclerView.setHasFixedSize(false);
 
     }
 
@@ -91,6 +95,32 @@ public class ActivityLists extends AppCompatActivity {
                     }
                 });
 
+                builder.setNeutralButton(R.string.duplicarLista, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Lista list = arrayListLists.get(eventPosition);
+                        Lista newList = new Lista(new ArrayList<Producto>(),new Date());
+                        Producto product;
+                        DB.addList(newList);
+                        arrayListLists.add(newList);
+                        DB.getAllProductsFromListID(list);
+                        for (int i=0;i<list.getListProducts().size();i++)
+                        {
+                            product = list.getListProducts().get(i);
+                            product.setPrice(0);
+                            DB.addProduct(product, newList);
+                        }
+
+                        eventPosition = posInArray(arrayListLists,newList.getId());
+                        Intent intent = new Intent(ActivityLists.this, ABMCompras.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putLong("listID", arrayListLists.get(eventPosition).getId());
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+
+                    }
+                });
+
                 AlertDialog alerta = builder.create();
                 alerta.show();
 
@@ -99,6 +129,7 @@ public class ActivityLists extends AppCompatActivity {
 
         recyclerView.setAdapter(adapter);
     }
+
 
 }
 
